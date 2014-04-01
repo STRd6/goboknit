@@ -101,7 +101,11 @@ Pot Holder</p>
             </div>
             <div class="content"><pre><code class="lang-coffeescript">{applyStylesheet} = require <span class="string">"./util"</span>
 
-applyStylesheet(require <span class="string">"./style"</span>)</code></pre>
+applyStylesheet(require <span class="string">"./style"</span>)
+
+gameTemplate = require <span class="string">"./templates/game"</span>
+
+document.body.appendChild gameTemplate()</code></pre>
 </div>
         </li>
         
