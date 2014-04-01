@@ -57,8 +57,8 @@ module.<span class="function"><span class="title">exports</span></span> = (I={})
       <span class="keyword">if</span> self.money() &gt; item.price
         self.money(self.money() - item.price)
 
-        purchasableFibers.remove(item)
-        inventory.push item
+        self.purchasableFibers.remove(item)
+        self.inventory.push item
 
     sell: (item) -&gt;
 
