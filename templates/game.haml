@@ -1,3 +1,5 @@
+- game = this
+
 .game
   .stats
     .money
@@ -15,4 +17,13 @@
         .type= fiber.name
         .weight= "#{fiber.weight} kg"
         %button.purchase Purcase!
+          - on "click", ->
+            - game.purchase(fiber)
+
+  .inventory
+    - each @inventory, (item) ->
+      .item
+        .type= item.name
+        .weight= item.weight
+
   .cyborgs Cyborgs

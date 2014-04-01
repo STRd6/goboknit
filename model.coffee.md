@@ -24,8 +24,8 @@ Game Model
           if self.money() > item.price
             self.money(self.money() - item.price)
 
-            purchasableFibers.remove(item)
-            inventory.push item
+            self.purchasableFibers.remove(item)
+            self.inventory.push item
 
         sell: (item) ->
           
