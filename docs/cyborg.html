@@ -2,7 +2,7 @@
 
 <html>
 <head>
-  <title>model</title>
+  <title>cyborg</title>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
   <link rel="stylesheet" media="all" href="http://strd6.github.io/cdn/parallel/docco.css" />
@@ -18,7 +18,7 @@
               <div class="pilwrap">
                 <a class="pilcrow" href="#section-1">&#182;</a>
               </div>
-              <h1 id="game-model">Game Model</h1>
+              <h1 id="cyborg">Cyborg</h1>
 
             </div>
             <div class="content"><pre><code class="lang-coffeescript">
@@ -37,51 +37,13 @@
             <div class="content"><pre><code class="lang-coffeescript">{defaults} = require <span class="string">"./util"</span>
 Composition = require <span class="string">"composition"</span>
 
-Bin = require <span class="string">"./bin"</span>
-Cyborg = require <span class="string">"./cyborg"</span>
-
 module.<span class="function"><span class="title">exports</span></span> = (I={}) -&gt;
   defaults I,
-    cyborgs: [
-      {}
-    ]
-    money: <span class="number">10000</span>
-    purchasableFibers: [
-      {type: <span class="string">"wool"</span>, price: <span class="number">355</span>, weight: <span class="number">1</span>}
-      {type: <span class="string">"silk"</span>, price: <span class="number">1090</span>, weight: <span class="number">1</span>}
-      {type: <span class="string">"bamboo"</span>, price: <span class="number">550</span> , weight: <span class="number">1</span>}
-    ]
-    bins: [
-    ]
-    demand: []
+    name: <span class="string">"Knitborg"</span>
 
   self = Composition(I)
 
-  self.attrObservable <span class="string">"bins"</span>, <span class="string">"money"</span>, <span class="string">"purchasableFibers"</span>
-  self.attrModels <span class="string">"cyborgs"</span>, Cyborg
-
-  self.extend
-    purchase: (item) -&gt;
-      <span class="keyword">if</span> self.money() &gt; item.price
-        self.money(self.money() - item.price)
-
-        self.purchasableFibers.remove(item)
-        self.addInventory item
-
-    addInventory: (item) -&gt;
-      found = <span class="literal">false</span>
-      self.bins.each (bin) -&gt;
-        <span class="keyword">if</span> bin.type() <span class="keyword">is</span> item.type
-          bin.amount(bin.amount() + item.weight)
-        found = <span class="literal">true</span>
-
-      <span class="keyword">unless</span> found
-        self.bins.push Bin
-          type: item.type
-          amount: item.weight
-
-    sell: (item) -&gt;
-
+  self.attrObservable <span class="string">"name"</span>
 
   <span class="keyword">return</span> self</code></pre>
 </div>
