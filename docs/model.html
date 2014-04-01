@@ -2,7 +2,7 @@
 
 <html>
 <head>
-  <title>main</title>
+  <title>model</title>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
   <link rel="stylesheet" media="all" href="http://strd6.github.io/cdn/parallel/docco.css" />
@@ -18,7 +18,7 @@
               <div class="pilwrap">
                 <a class="pilcrow" href="#section-1">&#182;</a>
               </div>
-              <h1 id="goboknit">Goboknit</h1>
+              <h1 id="game-model">Game Model</h1>
 
             </div>
             <div class="content"><pre><code class="lang-coffeescript">
@@ -32,63 +32,38 @@
               <div class="pilwrap">
                 <a class="pilcrow" href="#section-2">&#182;</a>
               </div>
-              <p>A tycoon game where you knit goblins with cyborgs.</p>
-<p>Need to be able to buy materials and sell bespoke knitted goblins.</p>
-<p>Needles, fibers, cyborg parts, patterns.</p>
-<h2 id="fibers">Fibers</h2>
-
+              
             </div>
-            <div class="content"><pre><code class="lang-coffeescript">
-</code></pre>
-</div>
-        </li>
-        
-        
-        <li id="section-3">
-            <div class="annotation">
-              <div class="pilwrap">
-                <a class="pilcrow" href="#section-3">&#182;</a>
-              </div>
-              <p>Wool, acrylic, bamboo, silk, gold, cotton, hemp, linen</p>
-<h2 id="stitch-patterns">Stitch Patterns</h2>
+            <div class="content"><pre><code class="lang-coffeescript">{defaults} = require <span class="string">"./util"</span>
+Composition = require <span class="string">"composition"</span>
 
-            </div>
-            <div class="content"><pre><code class="lang-coffeescript">
-</code></pre>
-</div>
-        </li>
-        
-        
-        <li id="section-4">
-            <div class="annotation">
-              <div class="pilwrap">
-                <a class="pilcrow" href="#section-4">&#182;</a>
-              </div>
-              <p>Stockinette, reverse stockinette, garter stitch, seed stitch, ribbing</p>
-<h2 id="techniques">Techniques</h2>
+module.<span class="function"><span class="title">exports</span></span> = (I={}) -&gt;
+  defaults I,
+    money: <span class="number">10000</span>
+    purchasableFibers: [
+      {name: <span class="string">"wool"</span>, price: <span class="number">355</span>, weight: <span class="number">1</span>}
+      {name: <span class="string">"silk"</span>, price: <span class="number">1090</span>, weight: <span class="number">1</span>}
+      {name: <span class="string">"bamboo"</span>, price: <span class="number">550</span> , weight: <span class="number">1</span>}
+    ]
+    inventory: []
+    demand: []
 
-            </div>
-            <div class="content"><pre><code class="lang-coffeescript">
-</code></pre>
-</div>
-        </li>
-        
-        
-        <li id="section-5">
-            <div class="annotation">
-              <div class="pilwrap">
-                <a class="pilcrow" href="#section-5">&#182;</a>
-              </div>
-              <p>Increasing, decreasing, short rows, seaming, working in the round</p>
+  self = Composition(I)
 
-            </div>
-            <div class="content"><pre><code class="lang-coffeescript">require <span class="string">"./setup"</span>
+  self.attrObservable <span class="string">"inventory"</span>, <span class="string">"money"</span>, <span class="string">"purchasableFibers"</span>
 
-gameTemplate = require <span class="string">"./templates/game"</span>
+  self.extend
+    purchase: (item) -&gt;
+      <span class="keyword">if</span> self.money() &gt; item.price
+        self.money(self.money() - item.price)
 
-model = require(<span class="string">"./model"</span>)()
+        purchasableFibers.remove(item)
+        inventory.push item
 
-document.body.appendChild gameTemplate(model)</code></pre>
+    sell: (item) -&gt;
+
+
+  <span class="keyword">return</span> self</code></pre>
 </div>
         </li>
         

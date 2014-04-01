@@ -86,12 +86,7 @@
 
 gameTemplate = require <span class="string">"./templates/game"</span>
 
-model =
-  purchasableFibers: [
-    {name: <span class="string">"wool"</span>, price: <span class="number">355</span>, weight: <span class="number">1</span>} 
-    {name: <span class="string">"silk"</span>, price: <span class="number">1090</span>, weight: <span class="number">1</span>} 
-    {name: <span class="string">"bamboo"</span>, price: <span class="number">550</span> , weight: <span class="number">1</span>}
-  ]
+model = require(<span class="string">"./model"</span>)()
 
 document.body.appendChild gameTemplate(model)</code></pre>
 </div>
