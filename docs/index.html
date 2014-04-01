@@ -80,32 +80,20 @@
                 <a class="pilcrow" href="#section-5">&#182;</a>
               </div>
               <p>Increasing, decreasing, short rows, seaming, working in the round</p>
-<h2 id="pattern">Pattern</h2>
 
             </div>
-            <div class="content"><pre><code class="lang-coffeescript">
-</code></pre>
-</div>
-        </li>
-        
-        
-        <li id="section-6">
-            <div class="annotation">
-              <div class="pilwrap">
-                <a class="pilcrow" href="#section-6">&#182;</a>
-              </div>
-              <p>Ugly sweater - seaming
-Nice Sweater - working in the round, increasing, decreasing, short rows
-Pot Holder</p>
-
-            </div>
-            <div class="content"><pre><code class="lang-coffeescript">{applyStylesheet} = require <span class="string">"./util"</span>
-
-applyStylesheet(require <span class="string">"./style"</span>)
+            <div class="content"><pre><code class="lang-coffeescript">require <span class="string">"./setup"</span>
 
 gameTemplate = require <span class="string">"./templates/game"</span>
 
-document.body.appendChild gameTemplate()</code></pre>
+model =
+  purchasableFibers: [
+    {name: <span class="string">"wool"</span>, price: <span class="number">355</span>, weight: <span class="number">1</span>} 
+    {name: <span class="string">"silk"</span>, price: <span class="number">1090</span>, weight: <span class="number">1</span>} 
+    {name: <span class="string">"bamboo"</span>, price: <span class="number">550</span> , weight: <span class="number">1</span>}
+  ]
+
+document.body.appendChild gameTemplate(model)</code></pre>
 </div>
         </li>
         
