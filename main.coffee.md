@@ -26,11 +26,6 @@ Increasing, decreasing, short rows, seaming, working in the round
 
     gameTemplate = require "./templates/game"
 
-    model =
-      purchasableFibers: [
-        {name: "wool", price: 355, weight: 1} 
-        {name: "silk", price: 1090, weight: 1} 
-        {name: "bamboo", price: 550 , weight: 1}
-      ]
+    model = require("./model")()
 
     document.body.appendChild gameTemplate(model)

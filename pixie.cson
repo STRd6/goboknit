@@ -1,2 +1,3 @@
 dependencies:
+  composition: "distri/compositions:v0.1.0"
   observable: "distri/observable:v0.1.0"
