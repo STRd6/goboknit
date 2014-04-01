@@ -29,7 +29,10 @@ Ugly sweater - seaming
 Nice Sweater - working in the round, increasing, decreasing, short rows
 Pot Holder
 
-
     {applyStylesheet} = require "./util"
-    
+
     applyStylesheet(require "./style")
+
+    gameTemplate = require "./templates/game"
+
+    document.body.appendChild gameTemplate()
