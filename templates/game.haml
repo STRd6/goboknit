@@ -8,22 +8,23 @@
       ¢
       = @money
   .fibers
-    .title Fibers
+    %h2 Fibers
     - each @purchasableFibers, (fiber) ->
       .fiber
         .price
           ¢
           = fiber.price
-        .type= fiber.name
+        .type= fiber.type
         .weight= "#{fiber.weight} kg"
         %button.purchase Purcase!
           - on "click", ->
             - game.purchase(fiber)
 
   .inventory
+    %h2 Bins
     - each @inventory, (item) ->
       .item
-        .type= item.name
-        .weight= item.weight
+        .type= item.type
+        .weight= item.amount
 
   .cyborgs Cyborgs
