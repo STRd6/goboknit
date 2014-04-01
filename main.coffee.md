@@ -22,17 +22,15 @@ Techniques
 
 Increasing, decreasing, short rows, seaming, working in the round
 
-Pattern
--------
-
-Ugly sweater - seaming
-Nice Sweater - working in the round, increasing, decreasing, short rows
-Pot Holder
-
-    {applyStylesheet} = require "./util"
-
-    applyStylesheet(require "./style")
+    require "./setup"
 
     gameTemplate = require "./templates/game"
 
-    document.body.appendChild gameTemplate()
+    model =
+      purchasableFibers: [
+        {name: "wool", price: 355, weight: 1} 
+        {name: "silk", price: 1090, weight: 1} 
+        {name: "bamboo", price: 550 , weight: 1}
+      ]
+
+    document.body.appendChild gameTemplate(model)

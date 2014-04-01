@@ -1,2 +1,11 @@
 .game
+  .fibers
+    .title Fibers
+    - each @purchasableFibers, (fiber) ->
+      .fiber
+        .price
+          ¢
+          = fiber.price
+        .type= fiber.name
+        .weight= "#{fiber.weight} kg"
   .cyborgs Cyborgs
