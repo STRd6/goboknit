@@ -20,11 +20,18 @@
           - on "click", ->
             - game.purchase(fiber)
 
-  .inventory
+  .bins
     %h2 Bins
-    - each @inventory, (item) ->
+    - each @bins, (item) ->
       .item
         .type= item.type
         .weight= item.amount
 
-  .cyborgs Cyborgs
+  .cyborgs
+    %h2 Cyborgs
+    - each @cyborgs, (cyborg) ->
+      .cyborg
+        .name= cyborg.name
+
+  .demand
+    %h2 Demand

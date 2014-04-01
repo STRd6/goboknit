@@ -5,22 +5,27 @@ Game Model
     Composition = require "composition"
 
     Bin = require "./bin"
+    Cyborg = require "./cyborg"
 
     module.exports = (I={}) ->
       defaults I,
+        cyborgs: [
+          {}
+        ]
         money: 10000
         purchasableFibers: [
           {type: "wool", price: 355, weight: 1}
           {type: "silk", price: 1090, weight: 1}
           {type: "bamboo", price: 550 , weight: 1}
         ]
-        inventory: [
+        bins: [
         ]
         demand: []
 
       self = Composition(I)
 
-      self.attrObservable "inventory", "money", "purchasableFibers"
+      self.attrObservable "bins", "money", "purchasableFibers"
+      self.attrModels "cyborgs", Cyborg
 
       self.extend
         purchase: (item) ->
@@ -32,13 +37,13 @@ Game Model
 
         addInventory: (item) ->
           found = false
-          self.inventory.each (bin) ->
+          self.bins.each (bin) ->
             if bin.type() is item.type
               bin.amount(bin.amount() + item.weight)
             found = true
 
           unless found
-            self.inventory.push Bin
+            self.bins.push Bin
               type: item.type
               amount: item.weight
 
