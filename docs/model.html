@@ -42,7 +42,7 @@ Cyborg = require <span class="string">"./cyborg"</span>
 
 <span class="function"><span class="title">A</span></span> = (name) -&gt;
   (x) -&gt;
-    x[name]
+    x[name]()
 
 module.<span class="function"><span class="title">exports</span></span> = (I={}) -&gt;
   defaults I,
@@ -78,26 +78,27 @@ module.<span class="function"><span class="title">exports</span></span> = (I={})
       self.bins.each (bin) -&gt;
         <span class="keyword">if</span> bin.type() <span class="keyword">is</span> item.type
           bin.amount(bin.amount() + item.weight)
-        found = <span class="literal">true</span>
+          found = <span class="literal">true</span>
 
       <span class="keyword">unless</span> found
         self.bins.push Bin
           type: item.type
           amount: item.weight
 
+    yarnTypes: -&gt;
+      self.bins().filter( (bin) -&gt;
+        bin.amount() &gt;= <span class="number">1</span>
+      ).map A(<span class="string">"type"</span>)
+
     produce: (input, cyborg) -&gt;
       cyborg.pr
 
     sell: (item) -&gt;
 
-  self.yarnTypes = Observable -&gt;
-    res = self.bins().filter( (bin) -&gt;
-      bin.amount &gt;= <span class="number">1</span>
-    ).map A(<span class="string">"type"</span>)
+  self.yarnTypes = Observable self.yarnTypes
 
-    console.log res
-
-    <span class="keyword">return</span> res
+  self.yarnTypes.observe (types) -&gt;
+    console.log types
 
   <span class="keyword">return</span> self</code></pre>
 </div>
