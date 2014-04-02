@@ -30,6 +30,10 @@ Game Model
         cyborgs: [
           {}
         ]
+        demands: [
+          {type: "acrylic", price: 200}
+          {type: "cotton", price: 300}
+        ]
         money: 10000
         purchasableFibers: [0...4].map getFiber
         bins: [
@@ -39,7 +43,7 @@ Game Model
 
       self = Composition(I)
 
-      self.attrObservable "money", "purchasableFibers"
+      self.attrObservable "money", "purchasableFibers", "demands"
       self.attrModels "cyborgs", Cyborg
       self.attrModels "bins", Bin
       self.attrModels "inventory", Bin

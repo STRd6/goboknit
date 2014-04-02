@@ -52,5 +52,16 @@
         .type= item.type
         .amount= item.amount
 
-  .demand
+  .demands
     %h2 Demand
+    - each @demands, (item) ->
+      .demand
+        .type
+          = item.type
+          = " Knitted Goblin"
+        .price
+          ¢
+          = item.price
+        %button.sell Sell
+          - on "click", ->
+            - alert "yolo!"
