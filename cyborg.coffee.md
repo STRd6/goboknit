@@ -7,9 +7,11 @@ Cyborg
     module.exports = (I={}) ->
       defaults I,
         name: "Knitborg"
+        durability: 25
+        durabilityMax: 25
 
       self = Composition(I)
 
-      self.attrObservable "name"
+      self.attrObservable "name", "durability", "durabilityMax"
 
       return self

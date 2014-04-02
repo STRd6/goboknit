@@ -31,7 +31,12 @@
     %h2 Cyborgs
     - each @cyborgs, (cyborg) ->
       .cyborg
+        %progress(value=cyborg.durability max=cyborg.durabilityMax)
         .name= cyborg.name
+
+        %select
+          - each game.yarnTypes (type) ->
+            %option= type
 
   .demand
     %h2 Demand

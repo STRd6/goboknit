@@ -7,6 +7,10 @@ Game Model
     Bin = require "./bin"
     Cyborg = require "./cyborg"
 
+    A = (name) ->
+      (x) ->
+        x[name]
+
     module.exports = (I={}) ->
       defaults I,
         cyborgs: [
@@ -24,8 +28,9 @@ Game Model
 
       self = Composition(I)
 
-      self.attrObservable "bins", "money", "purchasableFibers"
+      self.attrObservable "money", "purchasableFibers"
       self.attrModels "cyborgs", Cyborg
+      self.attrModels "bins", Bin
 
       self.extend
         purchase: (item) ->
@@ -47,7 +52,18 @@ Game Model
               type: item.type
               amount: item.weight
 
+        produce: (input, cyborg) ->
+          cyborg.pr
+
         sell: (item) ->
-          
+
+      self.yarnTypes = Observable ->
+        res = self.bins().filter( (bin) ->
+          bin.amount >= 1
+        ).map A("type")
+
+        console.log res
+
+        return res
 
       return self

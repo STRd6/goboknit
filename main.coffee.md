@@ -26,6 +26,6 @@ Increasing, decreasing, short rows, seaming, working in the round
 
     gameTemplate = require "./templates/game"
 
-    model = require("./model")()
+    global.game = require("./model")()
 
-    document.body.appendChild gameTemplate(model)
+    document.body.appendChild gameTemplate(game)
