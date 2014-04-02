@@ -60,9 +60,10 @@ Game Model
             type: item.type
             amount: item.amount
 
-      self.extend
-        addSupply: ->
-          
+      increment = (observable, amount) ->
+        observable observable() + amount
+
+      self.extend          
         purchase: (item) ->
           if self.money() > item.price
             self.money(self.money() - item.price)
@@ -83,6 +84,17 @@ Game Model
           ).map A("type")
 
         sell: (item) ->
+          bin = self.inventory().filter (bin) ->
+            bin.type() is item.type
+          .first()
+
+          n = 1
+
+          if bin and bin.amount() >= n
+            bin.amount(bin.amount() - n)
+            increment self.money, item.price * n
+          else
+            alert "Insufficient Items of type #{item.type}"
 
       self.yarnTypes = Observable self.yarnTypes
 
