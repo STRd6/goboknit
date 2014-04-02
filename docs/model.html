@@ -63,6 +63,10 @@ module.<span class="function"><span class="title">exports</span></span> = (I={})
     cyborgs: [
       {}
     ]
+    demands: [
+      {type: <span class="string">"acrylic"</span>, price: <span class="number">200</span>}
+      {type: <span class="string">"cotton"</span>, price: <span class="number">300</span>}
+    ]
     money: <span class="number">10000</span>
     purchasableFibers: [<span class="number">0.</span>.<span class="number">.4</span>].map getFiber
     bins: [
@@ -72,7 +76,7 @@ module.<span class="function"><span class="title">exports</span></span> = (I={})
 
   self = Composition(I)
 
-  self.attrObservable <span class="string">"money"</span>, <span class="string">"purchasableFibers"</span>
+  self.attrObservable <span class="string">"money"</span>, <span class="string">"purchasableFibers"</span>, <span class="string">"demands"</span>
   self.attrModels <span class="string">"cyborgs"</span>, Cyborg
   self.attrModels <span class="string">"bins"</span>, Bin
   self.attrModels <span class="string">"inventory"</span>, Bin
