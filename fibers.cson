@@ -1,0 +1,15 @@
+acrylic:
+  basePrice: 150
+  frequency: 10
+cotton:
+  basePrice: 130
+  frequency: 10
+wool:
+  basePrice: 355
+  frequency: 10
+silk:
+  basePrice: 1090
+  frequency: 3
+bamboo:
+  basePrice: 550
+  frequency: 3

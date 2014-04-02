@@ -21,12 +21,20 @@ Cyborg
           unless bin
             alert "No yarn selected!"
             return
+    
+          durability = self.durability()
+
+          if durability <= 0
+            alert "Cyborg is broken down :*"
+            return
+
+          self.durability self.durability() - 1
 
           n = 1
 
           if bin and bin.amount() >= n
             bin.amount(bin.amount() - n)
-            output Bin
+            output
               type: bin.type()
               amount: n
           else

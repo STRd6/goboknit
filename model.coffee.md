@@ -1,15 +1,29 @@
 Game Model
 ==========
 
-    {defaults} = require "./util"
+    {defaults, extend} = require "./util"
     Composition = require "composition"
 
     Bin = require "./bin"
     Cyborg = require "./cyborg"
+    fibers = require "./fibers"
 
     A = (name) ->
       (x) ->
         x[name]()
+
+    getFiber = ->
+      fiber = Object.keys(fibers).map((type) ->
+        extend
+          type: type
+        , fibers[type]
+      ).rand()
+
+      amount = rand(fiber.frequency) + 1
+      fiber.price = Math.floor amount * (fiber.basePrice + (rand() * 0.3 - 0.15) * fiber.basePrice)
+      fiber.amount = amount
+
+      return fiber
 
     module.exports = (I={}) ->
       defaults I,
@@ -17,11 +31,7 @@ Game Model
           {}
         ]
         money: 10000
-        purchasableFibers: [
-          {type: "wool", price: 355, amount: 1}
-          {type: "silk", price: 1090, amount: 1}
-          {type: "bamboo", price: 550 , amount: 1}
-        ]
+        purchasableFibers: [0...4].map getFiber
         bins: [
         ]
         inventory: []
@@ -47,6 +57,8 @@ Game Model
             amount: item.amount
 
       self.extend
+        addSupply: ->
+          
         purchase: (item) ->
           if self.money() > item.price
             self.money(self.money() - item.price)
