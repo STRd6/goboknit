@@ -27,7 +27,7 @@ window["STRd6/goboknit:master"]({
     "style.styl": {
       "path": "style.styl",
       "mode": "100644",
-      "content": "*\n  box-sizing: border-box\n\nhtml\n  height: 100%\n\nbody\n  margin: 0\n  background-color: orange\n  height: 100%\n\n.fiber\n  border: 1px solid black\n  display: inline-block\n  width: 80px\n  height: 100px\n  padding: 4px\n  position: relative\n\n  .purchase\n    position: absolute\n    bottom: 4px\n    right: 4px\n\n.cyborg\n  display: inline-block\n  padding: 4px\n  width: 200px\n  height: 100px\n  border: 1px solid black\n\n  progress\n    width: 100%\n",
+      "content": "*\n  box-sizing: border-box\n\nhtml\n  height: 100%\n\nbody\n  margin: 0\n  background-image: url(https://s3.amazonaws.com/addressable/gobo/gobo2.jpg)\n  height: 100%\n\n.fiber\n  background-color: white\n  border: 1px solid black\n  display: inline-block\n  width: 80px\n  height: 100px\n  padding: 4px\n  position: relative\n\n  .purchase\n    position: absolute\n    bottom: 4px\n    right: 4px\n\n.cyborg\n  background-color: white\n  display: inline-block\n  padding: 4px\n  width: 200px\n  height: 100px\n  border: 1px solid black\n\n  progress\n    width: 100%\n",
       "type": "blob"
     },
     "templates/game.haml": {
@@ -86,7 +86,7 @@ window["STRd6/goboknit:master"]({
     },
     "style": {
       "path": "style",
-      "content": "module.exports = \"* {\\n  -ms-box-sizing: border-box;\\n  -moz-box-sizing: border-box;\\n  -webkit-box-sizing: border-box;\\n  box-sizing: border-box;\\n}\\n\\nhtml {\\n  height: 100%;\\n}\\n\\nbody {\\n  margin: 0;\\n  background-color: orange;\\n  height: 100%;\\n}\\n\\n.fiber {\\n  border: 1px solid black;\\n  display: inline-block;\\n  width: 80px;\\n  height: 100px;\\n  padding: 4px;\\n  position: relative;\\n}\\n\\n.fiber .purchase {\\n  position: absolute;\\n  bottom: 4px;\\n  right: 4px;\\n}\\n\\n.cyborg {\\n  display: inline-block;\\n  padding: 4px;\\n  width: 200px;\\n  height: 100px;\\n  border: 1px solid black;\\n}\\n\\n.cyborg progress {\\n  width: 100%;\\n}\";",
+      "content": "module.exports = \"* {\\n  -ms-box-sizing: border-box;\\n  -moz-box-sizing: border-box;\\n  -webkit-box-sizing: border-box;\\n  box-sizing: border-box;\\n}\\n\\nhtml {\\n  height: 100%;\\n}\\n\\nbody {\\n  margin: 0;\\n  background-image: url(https://s3.amazonaws.com/addressable/gobo/gobo2.jpg);\\n  height: 100%;\\n}\\n\\n.fiber {\\n  background-color: white;\\n  border: 1px solid black;\\n  display: inline-block;\\n  width: 80px;\\n  height: 100px;\\n  padding: 4px;\\n  position: relative;\\n}\\n\\n.fiber .purchase {\\n  position: absolute;\\n  bottom: 4px;\\n  right: 4px;\\n}\\n\\n.cyborg {\\n  background-color: white;\\n  display: inline-block;\\n  padding: 4px;\\n  width: 200px;\\n  height: 100px;\\n  border: 1px solid black;\\n}\\n\\n.cyborg progress {\\n  width: 100%;\\n}\\n\\n@media all and (-webkit-min-device-pixel-ratio: 1.5) {\\n  body {\\n    background-image: url(\\\"https:/s3.amazonaws.com/addressable/gobo/gobo2@2x.jpg\\\");\\n    background-size: contain;\\n  }\\n}\";",
       "type": "blob"
     },
     "templates/game": {
