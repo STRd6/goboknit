@@ -34,15 +34,29 @@
               </div>
               
             </div>
-            <div class="content"><pre><code class="lang-coffeescript">{defaults} = require <span class="string">"./util"</span>
+            <div class="content"><pre><code class="lang-coffeescript">{defaults, extend} = require <span class="string">"./util"</span>
 Composition = require <span class="string">"composition"</span>
 
 Bin = require <span class="string">"./bin"</span>
 Cyborg = require <span class="string">"./cyborg"</span>
+fibers = require <span class="string">"./fibers"</span>
 
 <span class="function"><span class="title">A</span></span> = (name) -&gt;
   (x) -&gt;
     x[name]()
+
+<span class="function"><span class="title">getFiber</span></span> = -&gt;
+  fiber = Object.keys(fibers).map((type) -&gt;
+    extend
+      type: type
+    , fibers[type]
+  ).rand()
+
+  amount = rand(fiber.frequency) + <span class="number">1</span>
+  fiber.price = Math.floor amount * (fiber.basePrice + (rand() * <span class="number">0.3</span> - <span class="number">0.15</span>) * fiber.basePrice)
+  fiber.amount = amount
+
+  <span class="keyword">return</span> fiber
 
 module.<span class="function"><span class="title">exports</span></span> = (I={}) -&gt;
   defaults I,
@@ -50,11 +64,7 @@ module.<span class="function"><span class="title">exports</span></span> = (I={})
       {}
     ]
     money: <span class="number">10000</span>
-    purchasableFibers: [
-      {type: <span class="string">"wool"</span>, price: <span class="number">355</span>, amount: <span class="number">1</span>}
-      {type: <span class="string">"silk"</span>, price: <span class="number">1090</span>, amount: <span class="number">1</span>}
-      {type: <span class="string">"bamboo"</span>, price: <span class="number">550</span> , amount: <span class="number">1</span>}
-    ]
+    purchasableFibers: [<span class="number">0.</span>.<span class="number">.4</span>].map getFiber
     bins: [
     ]
     inventory: []
@@ -80,6 +90,8 @@ module.<span class="function"><span class="title">exports</span></span> = (I={})
         amount: item.amount
 
   self.extend
+    addSupply: -&gt;
+
     purchase: (item) -&gt;
       <span class="keyword">if</span> self.money() &gt; item.price
         self.money(self.money() - item.price)
