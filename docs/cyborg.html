@@ -37,6 +37,8 @@
             <div class="content"><pre><code class="lang-coffeescript">{defaults} = require <span class="string">"./util"</span>
 Composition = require <span class="string">"composition"</span>
 
+Bin = require <span class="string">"./bin"</span>
+
 module.<span class="function"><span class="title">exports</span></span> = (I={}) -&gt;
   defaults I,
     name: <span class="string">"Knitborg"</span>
@@ -45,7 +47,23 @@ module.<span class="function"><span class="title">exports</span></span> = (I={})
 
   self = Composition(I)
 
-  self.attrObservable <span class="string">"name"</span>, <span class="string">"durability"</span>, <span class="string">"durabilityMax"</span>
+  self.attrObservable <span class="string">"name"</span>, <span class="string">"durability"</span>, <span class="string">"durabilityMax"</span>, <span class="string">"selectedBin"</span>
+
+  self.extend
+    produce: (bin, output) -&gt;
+      <span class="keyword">unless</span> bin
+        alert <span class="string">"No yarn selected!"</span>
+        <span class="keyword">return</span>
+
+      n = <span class="number">1</span>
+
+      <span class="keyword">if</span> bin <span class="keyword">and</span> bin.amount() &gt;= n
+        bin.amount(bin.amount() - n)
+        output Bin
+          type: bin.type()
+          amount: n
+      <span class="keyword">else</span>
+        alert <span class="string">"Insufficient Material"</span>
 
   <span class="keyword">return</span> self</code></pre>
 </div>

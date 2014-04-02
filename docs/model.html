@@ -51,12 +51,13 @@ module.<span class="function"><span class="title">exports</span></span> = (I={})
     ]
     money: <span class="number">10000</span>
     purchasableFibers: [
-      {type: <span class="string">"wool"</span>, price: <span class="number">355</span>, weight: <span class="number">1</span>}
-      {type: <span class="string">"silk"</span>, price: <span class="number">1090</span>, weight: <span class="number">1</span>}
-      {type: <span class="string">"bamboo"</span>, price: <span class="number">550</span> , weight: <span class="number">1</span>}
+      {type: <span class="string">"wool"</span>, price: <span class="number">355</span>, amount: <span class="number">1</span>}
+      {type: <span class="string">"silk"</span>, price: <span class="number">1090</span>, amount: <span class="number">1</span>}
+      {type: <span class="string">"bamboo"</span>, price: <span class="number">550</span> , amount: <span class="number">1</span>}
     ]
     bins: [
     ]
+    inventory: []
     demand: []
 
   self = Composition(I)
@@ -64,6 +65,19 @@ module.<span class="function"><span class="title">exports</span></span> = (I={})
   self.attrObservable <span class="string">"money"</span>, <span class="string">"purchasableFibers"</span>
   self.attrModels <span class="string">"cyborgs"</span>, Cyborg
   self.attrModels <span class="string">"bins"</span>, Bin
+  self.attrModels <span class="string">"inventory"</span>, Bin
+
+  <span class="function"><span class="title">addStock</span></span> = (item, pile) -&gt;
+    found = <span class="literal">false</span>
+    pile.each (bin) -&gt;
+      <span class="keyword">if</span> bin.type() <span class="keyword">is</span> item.type
+        bin.amount(bin.amount() + item.amount)
+        found = <span class="literal">true</span>
+
+    <span class="keyword">unless</span> found
+      pile.push Bin
+        type: item.type
+        amount: item.amount
 
   self.extend
     purchase: (item) -&gt;
@@ -71,27 +85,19 @@ module.<span class="function"><span class="title">exports</span></span> = (I={})
         self.money(self.money() - item.price)
 
         self.purchasableFibers.remove(item)
-        self.addInventory item
+        self.addResource item
 
-    addInventory: (item) -&gt;
-      found = <span class="literal">false</span>
-      self.bins.each (bin) -&gt;
-        <span class="keyword">if</span> bin.type() <span class="keyword">is</span> item.type
-          bin.amount(bin.amount() + item.weight)
-          found = <span class="literal">true</span>
+    addResource: (item) -&gt;
+      addStock(item, self.bins)
 
-      <span class="keyword">unless</span> found
-        self.bins.push Bin
-          type: item.type
-          amount: item.weight
+    output: (item) -&gt;
+      console.log item
+      addStock(item, self.inventory)
 
     yarnTypes: -&gt;
       self.bins().filter( (bin) -&gt;
         bin.amount() &gt;= <span class="number">1</span>
       ).map A(<span class="string">"type"</span>)
-
-    produce: (input, cyborg) -&gt;
-      cyborg.pr
 
     sell: (item) -&gt;
 
