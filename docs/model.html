@@ -93,9 +93,10 @@ module.<span class="function"><span class="title">exports</span></span> = (I={})
         type: item.type
         amount: item.amount
 
-  self.extend
-    addSupply: -&gt;
+  <span class="function"><span class="title">increment</span></span> = (observable, amount) -&gt;
+    observable observable() + amount
 
+  self.extend          
     purchase: (item) -&gt;
       <span class="keyword">if</span> self.money() &gt; item.price
         self.money(self.money() - item.price)
@@ -116,6 +117,17 @@ module.<span class="function"><span class="title">exports</span></span> = (I={})
       ).map A(<span class="string">"type"</span>)
 
     sell: (item) -&gt;
+      bin = self.inventory().filter (bin) -&gt;
+        bin.type() <span class="keyword">is</span> item.type
+      .first()
+
+      n = <span class="number">1</span>
+
+      <span class="keyword">if</span> bin <span class="keyword">and</span> bin.amount() &gt;= n
+        bin.amount(bin.amount() - n)
+        increment self.money, item.price * n
+      <span class="keyword">else</span>
+        alert <span class="string">"Insufficient Items of type <span class="subst">#{item.type}</span>"</span>
 
   self.yarnTypes = Observable self.yarnTypes
 
