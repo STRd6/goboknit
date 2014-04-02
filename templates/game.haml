@@ -35,8 +35,8 @@
         .name= cyborg.name
 
         %select
-          - each game.yarnTypes (type) ->
-            %option= type
+          - each game.bins, (bin) ->
+            %option= bin.type()
 
   .demand
     %h2 Demand

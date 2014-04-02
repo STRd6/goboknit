@@ -9,7 +9,7 @@ Game Model
 
     A = (name) ->
       (x) ->
-        x[name]
+        x[name]()
 
     module.exports = (I={}) ->
       defaults I,
@@ -45,25 +45,26 @@ Game Model
           self.bins.each (bin) ->
             if bin.type() is item.type
               bin.amount(bin.amount() + item.weight)
-            found = true
+              found = true
 
           unless found
             self.bins.push Bin
               type: item.type
               amount: item.weight
 
+        yarnTypes: ->
+          self.bins().filter( (bin) ->
+            bin.amount() >= 1
+          ).map A("type")
+
         produce: (input, cyborg) ->
           cyborg.pr
 
         sell: (item) ->
 
-      self.yarnTypes = Observable ->
-        res = self.bins().filter( (bin) ->
-          bin.amount >= 1
-        ).map A("type")
+      self.yarnTypes = Observable self.yarnTypes
 
-        console.log res
-
-        return res
+      self.yarnTypes.observe (types) ->
+        console.log types
 
       return self
