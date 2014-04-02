@@ -18,12 +18,13 @@ Game Model
         ]
         money: 10000
         purchasableFibers: [
-          {type: "wool", price: 355, weight: 1}
-          {type: "silk", price: 1090, weight: 1}
-          {type: "bamboo", price: 550 , weight: 1}
+          {type: "wool", price: 355, amount: 1}
+          {type: "silk", price: 1090, amount: 1}
+          {type: "bamboo", price: 550 , amount: 1}
         ]
         bins: [
         ]
+        inventory: []
         demand: []
 
       self = Composition(I)
@@ -31,6 +32,19 @@ Game Model
       self.attrObservable "money", "purchasableFibers"
       self.attrModels "cyborgs", Cyborg
       self.attrModels "bins", Bin
+      self.attrModels "inventory", Bin
+
+      addStock = (item, pile) ->
+        found = false
+        pile.each (bin) ->
+          if bin.type() is item.type
+            bin.amount(bin.amount() + item.amount)
+            found = true
+
+        unless found
+          pile.push Bin
+            type: item.type
+            amount: item.amount
 
       self.extend
         purchase: (item) ->
@@ -38,27 +52,19 @@ Game Model
             self.money(self.money() - item.price)
 
             self.purchasableFibers.remove(item)
-            self.addInventory item
+            self.addResource item
 
-        addInventory: (item) ->
-          found = false
-          self.bins.each (bin) ->
-            if bin.type() is item.type
-              bin.amount(bin.amount() + item.weight)
-              found = true
+        addResource: (item) ->
+          addStock(item, self.bins)
 
-          unless found
-            self.bins.push Bin
-              type: item.type
-              amount: item.weight
+        output: (item) ->
+          console.log item
+          addStock(item, self.inventory)
 
         yarnTypes: ->
           self.bins().filter( (bin) ->
             bin.amount() >= 1
           ).map A("type")
-
-        produce: (input, cyborg) ->
-          cyborg.pr
 
         sell: (item) ->
 

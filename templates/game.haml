@@ -15,7 +15,7 @@
           ¢
           = fiber.price
         .type= fiber.type
-        .weight= "#{fiber.weight} kg"
+        .amount= "#{fiber.amount} kg"
         %button.purchase Purcase!
           - on "click", ->
             - game.purchase(fiber)
@@ -25,7 +25,7 @@
     - each @bins, (item) ->
       .item
         .type= item.type
-        .weight= item.amount
+        .amount= item.amount
 
   .cyborgs
     %h2 Cyborgs
@@ -35,8 +35,22 @@
         .name= cyborg.name
 
         %select
+          %option
           - each game.bins, (bin) ->
-            %option= bin.type()
+            %option(value=bin.type)= bin.type()
+          - on "change", cyborg.selectedBin
+
+        %button Knit!
+          - on "click", ->
+            - console.log "yolo"
+            - cyborg.produce cyborg.selectedBin(), game.output
+
+  .inventory
+    %h2 Inventory
+    - each @inventory, (item) ->
+      .item
+        .type= item.type
+        .amount= item.amount
 
   .demand
     %h2 Demand
