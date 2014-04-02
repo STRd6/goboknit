@@ -86,9 +86,9 @@
 
 gameTemplate = require <span class="string">"./templates/game"</span>
 
-model = require(<span class="string">"./model"</span>)()
+global.game = require(<span class="string">"./model"</span>)()
 
-document.body.appendChild gameTemplate(model)</code></pre>
+document.body.appendChild gameTemplate(game)</code></pre>
 </div>
         </li>
         

@@ -40,10 +40,12 @@ Composition = require <span class="string">"composition"</span>
 module.<span class="function"><span class="title">exports</span></span> = (I={}) -&gt;
   defaults I,
     name: <span class="string">"Knitborg"</span>
+    durability: <span class="number">25</span>
+    durabilityMax: <span class="number">25</span>
 
   self = Composition(I)
 
-  self.attrObservable <span class="string">"name"</span>
+  self.attrObservable <span class="string">"name"</span>, <span class="string">"durability"</span>, <span class="string">"durabilityMax"</span>
 
   <span class="keyword">return</span> self</code></pre>
 </div>

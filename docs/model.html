@@ -40,6 +40,10 @@ Composition = require <span class="string">"composition"</span>
 Bin = require <span class="string">"./bin"</span>
 Cyborg = require <span class="string">"./cyborg"</span>
 
+<span class="function"><span class="title">A</span></span> = (name) -&gt;
+  (x) -&gt;
+    x[name]
+
 module.<span class="function"><span class="title">exports</span></span> = (I={}) -&gt;
   defaults I,
     cyborgs: [
@@ -57,8 +61,9 @@ module.<span class="function"><span class="title">exports</span></span> = (I={})
 
   self = Composition(I)
 
-  self.attrObservable <span class="string">"bins"</span>, <span class="string">"money"</span>, <span class="string">"purchasableFibers"</span>
+  self.attrObservable <span class="string">"money"</span>, <span class="string">"purchasableFibers"</span>
   self.attrModels <span class="string">"cyborgs"</span>, Cyborg
+  self.attrModels <span class="string">"bins"</span>, Bin
 
   self.extend
     purchase: (item) -&gt;
@@ -80,8 +85,19 @@ module.<span class="function"><span class="title">exports</span></span> = (I={})
           type: item.type
           amount: item.weight
 
+    produce: (input, cyborg) -&gt;
+      cyborg.pr
+
     sell: (item) -&gt;
 
+  self.yarnTypes = Observable -&gt;
+    res = self.bins().filter( (bin) -&gt;
+      bin.amount &gt;= <span class="number">1</span>
+    ).map A(<span class="string">"type"</span>)
+
+    console.log res
+
+    <span class="keyword">return</span> res
 
   <span class="keyword">return</span> self</code></pre>
 </div>
