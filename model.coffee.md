@@ -25,15 +25,20 @@ Game Model
 
       return fiber
 
+    createDemands = ->
+      fiber = Object.keys(fibers).map((type) ->
+        extend
+          type: type
+        , fibers[type]
+      ).each (demand) ->
+        demand.price = Math.floor demand.basePrice * 1.1
+
     module.exports = (I={}) ->
       defaults I,
         cyborgs: [
           {}
         ]
-        demands: [
-          {type: "acrylic", price: 200}
-          {type: "cotton", price: 300}
-        ]
+        demands: createDemands()
         money: 10000
         purchasableFibers: [0...4].map getFiber
         bins: [
@@ -70,6 +75,8 @@ Game Model
 
             self.purchasableFibers.remove(item)
             self.addResource item
+            
+            self.purchasableFibers.push getFiber()
 
         addResource: (item) ->
           addStock(item, self.bins)
