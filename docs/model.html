@@ -58,15 +58,20 @@ fibers = require <span class="string">"./fibers"</span>
 
   <span class="keyword">return</span> fiber
 
+<span class="function"><span class="title">createDemands</span></span> = -&gt;
+  fiber = Object.keys(fibers).map((type) -&gt;
+    extend
+      type: type
+    , fibers[type]
+  ).each (demand) -&gt;
+    demand.price = Math.floor demand.basePrice * <span class="number">1.1</span>
+
 module.<span class="function"><span class="title">exports</span></span> = (I={}) -&gt;
   defaults I,
     cyborgs: [
       {}
     ]
-    demands: [
-      {type: <span class="string">"acrylic"</span>, price: <span class="number">200</span>}
-      {type: <span class="string">"cotton"</span>, price: <span class="number">300</span>}
-    ]
+    demands: createDemands()
     money: <span class="number">10000</span>
     purchasableFibers: [<span class="number">0.</span>.<span class="number">.4</span>].map getFiber
     bins: [
@@ -103,6 +108,8 @@ module.<span class="function"><span class="title">exports</span></span> = (I={})
 
         self.purchasableFibers.remove(item)
         self.addResource item
+
+        self.purchasableFibers.push getFiber()
 
     addResource: (item) -&gt;
       addStock(item, self.bins)
