@@ -2,7 +2,7 @@
 
 <html>
 <head>
-  <title>util</title>
+  <title>youtube</title>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
   <link rel="stylesheet" media="all" href="http://strd6.github.io/cdn/parallel/docco.css" />
@@ -18,7 +18,7 @@
               <div class="pilwrap">
                 <a class="pilcrow" href="#section-1">&#182;</a>
               </div>
-              <h1 id="util">Util</h1>
+              <h1 id="play-a-youtube-video">Play a Youtube video</h1>
 
             </div>
             <div class="content"><pre><code class="lang-coffeescript">
@@ -34,31 +34,53 @@
               </div>
               
             </div>
-            <div class="content"><pre><code class="lang-coffeescript">module.exports =
-  applyStylesheet: (style, id=<span class="string">"primary"</span>) -&gt;
-    styleNode = document.createElement(<span class="string">"style"</span>)
-    styleNode.innerHTML = style
-    styleNode.id = id
+            <div class="content"><pre><code class="lang-coffeescript">  tag = document.createElement(<span class="string">'script'</span>)
 
-    <span class="keyword">if</span> previousStyleNode = document.head.querySelector(<span class="string">"style#<span class="subst">#{id}</span>"</span>)
-      previousStyleNode.parentNode.removeChild(prevousStyleNode)
+  tag.src = <span class="string">"https://www.youtube.com/iframe_api"</span>
+  firstScriptTag = document.getElementsByTagName(<span class="string">'script'</span>)[<span class="number">0</span>]
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag)
 
-    document.head.appendChild(styleNode)
+  callbacks = []
 
-  extend: (target, sources...) -&gt;
-    <span class="keyword">for</span> source <span class="keyword">in</span> sources
-      <span class="keyword">for</span> name <span class="keyword">of</span> source
-        target[name] = source[name]
+  <span class="function"><span class="title">stop</span></span> = -&gt;
+    callbacks.forEach (callback) -&gt;
+      callback()
 
-    <span class="keyword">return</span> target
+    callbacks = []
+    $(<span class="string">"#player"</span>).hide()
 
-  defaults: (target, objects...) -&gt;
-    <span class="keyword">for</span> object <span class="keyword">in</span> objects
-      <span class="keyword">for</span> name <span class="keyword">of</span> object
-        <span class="keyword">unless</span> target.hasOwnProperty(name)
-          target[name] = object[name]
+  <span class="function"><span class="title">onPlayerStateChange</span></span> = (event) -&gt;
+    <span class="keyword">if</span> event.data <span class="keyword">is</span> YT.PlayerState.ENDED
+      stop()
 
-    <span class="keyword">return</span> target</code></pre>
+  stopVideo = () -&gt;
+    player.stopVideo()
+
+  <span class="comment"># 4. The API will call this function when the video player is ready.</span>
+  <span class="function"><span class="title">onPlayerReady</span></span> = (event) -&gt;
+    ;<span class="comment">#event.target.playVideo()</span>
+
+  player = <span class="literal">undefined</span>
+  global.onYouTubeIframeAPIReady = () -&gt;
+    player = <span class="keyword">new</span> YT.Player <span class="string">'player'</span>,
+      height: <span class="string">'390'</span>
+      width: <span class="string">'640'</span>
+      playerVars:
+        controls: <span class="number">0</span>
+        showinfo: <span class="number">0</span>
+        rel: <span class="number">0</span>
+      events:
+        <span class="string">'onReady'</span>: onPlayerReady
+        <span class="string">'onStateChange'</span>: onPlayerStateChange
+
+  module.exports =
+    playVideo: (id, completed) -&gt;
+      $(<span class="string">"#player"</span>).show()
+
+      player.loadVideoById id
+      callbacks.push completed
+
+    stop: stop</code></pre>
 </div>
         </li>
         
