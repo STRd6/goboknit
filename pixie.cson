@@ -3,3 +3,8 @@ dependencies:
   cornerstone: "distri/cornerstone:v0.2.0"
   observable: "distri/observable:v0.1.0"
   resource: "distri/resource:v0.2.0"
+remoteDependencies: [
+  "https://code.jquery.com/jquery-1.11.0.min.js"
+]
+width: 1024
+height: 768

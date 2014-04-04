@@ -33,3 +33,5 @@ Increasing, decreasing, short rows, seaming, working in the round
     global.game = require("./model")()
 
     document.body.appendChild gameTemplate(game)
+
+    require "./youtube"
