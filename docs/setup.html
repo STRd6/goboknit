@@ -40,7 +40,13 @@ global.Observable = require <span class="string">"observable"</span>
 
 {applyStylesheet} = require <span class="string">"./util"</span>
 
-applyStylesheet(require <span class="string">"./style"</span>)</code></pre>
+applyStylesheet(require <span class="string">"./style"</span>)
+
+Resource = require <span class="string">"resource"</span>
+Resource.add
+  <span class="comment">#images: require "./images"</span>
+  music: require <span class="string">"./music"</span>
+  <span class="comment">#sounds: require "./sounds"</span></code></pre>
 </div>
         </li>
         
