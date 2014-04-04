@@ -24,6 +24,10 @@ Increasing, decreasing, short rows, seaming, working in the round
 
     require "./setup"
 
+    # TODO: Add intro
+    {Music} = require "resource"
+    Music.play "main"
+
     gameTemplate = require "./templates/game"
 
     global.game = require("./model")()

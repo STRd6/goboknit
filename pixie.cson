@@ -2,3 +2,4 @@ dependencies:
   composition: "distri/compositions:v0.1.0"
   cornerstone: "distri/cornerstone:v0.2.0"
   observable: "distri/observable:v0.1.0"
+  resource: "distri/resource:v0.2.0"
