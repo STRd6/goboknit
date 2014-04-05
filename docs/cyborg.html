@@ -41,17 +41,19 @@ Bin = require <span class="string">"./bin"</span>
 
 module.<span class="function"><span class="title">exports</span></span> = (I={}) -&gt;
   defaults I,
-    name: <span class="string">"Knitborg"</span>
+    name: <span class="string">"Knitborg Jr."</span>
     durability: <span class="number">25</span>
     durabilityMax: <span class="number">25</span>
     selectedQuantity: <span class="number">1</span>
+    repairCost: <span class="number">250</span>
 
   self = Composition(I)
 
-  self.attrObservable <span class="string">"name"</span>, <span class="string">"durability"</span>, <span class="string">"durabilityMax"</span>, <span class="string">"selectedBin"</span>, <span class="string">"selectedQuantity"</span>
+  self.attrObservable <span class="string">"name"</span>, <span class="string">"durability"</span>, <span class="string">"durabilityMax"</span>, <span class="string">"repairCost"</span>, <span class="string">"selectedBin"</span>, <span class="string">"selectedQuantity"</span>
 
   self.extend
     repair: -&gt;
+      self.repairCost self.repairCost() + <span class="number">50</span>
       self.durability self.durabilityMax()
 
     produce: (bin, output) -&gt;

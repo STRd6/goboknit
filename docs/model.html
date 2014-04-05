@@ -80,6 +80,7 @@ module.<span class="function"><span class="title">exports</span></span> = (I={})
     cyborgs: [
       {}
     ]
+    cyborgPrice: <span class="number">6000</span>
     demands: createDemands()
     money: <span class="number">10000</span>
     purchasableFibers: [<span class="number">0.</span>.<span class="number">.4</span>].map getFiber
@@ -89,7 +90,7 @@ module.<span class="function"><span class="title">exports</span></span> = (I={})
 
   self = Composition(I)
 
-  self.attrObservable <span class="string">"money"</span>, <span class="string">"purchasableFibers"</span>, <span class="string">"demands"</span>
+  self.attrObservable <span class="string">"money"</span>, <span class="string">"cyborgPrice"</span>,  <span class="string">"purchasableFibers"</span>, <span class="string">"demands"</span>
   self.attrModels <span class="string">"cyborgs"</span>, Cyborg
   self.attrModels <span class="string">"bins"</span>, Bin
   self.attrModels <span class="string">"inventory"</span>, Bin
@@ -129,6 +130,23 @@ module.<span class="function"><span class="title">exports</span></span> = (I={})
 
         <span class="keyword">if</span> rand() &lt; <span class="number">0.1</span>
           eventOccurs()
+
+    repair: (cyborg) -&gt;
+      cost = cyborg.repairCost()
+      <span class="keyword">if</span> self.money() &gt; cost
+        self.money(self.money() - cost)
+        cyborg.repair()
+      <span class="keyword">else</span>
+        alert <span class="string">"Not enough money"</span>
+
+    purchaseCyborg: -&gt;
+      price = self.cyborgPrice()
+      <span class="keyword">if</span> self.money() &gt;= price
+        increment self.money, -price
+        increment self.cyborgPrice, <span class="number">1000</span>
+        self.cyborgs.push Cyborg()
+      <span class="keyword">else</span>
+        alert <span class="string">"Not enough money"</span>
 
     addResource: (item) -&gt;
       addStock(item, self.bins)
