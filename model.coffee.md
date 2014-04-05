@@ -76,6 +76,11 @@ Game Model
       increment = (observable, amount) ->
         observable observable() + amount
 
+      eventOccurs = ->
+        MarketEvents.occur()
+        self.demands createDemands()
+        self.purchasableFibers [0...4].map getFiber
+
       self.extend          
         purchase: (item) ->
           if self.money() > item.price
@@ -89,10 +94,8 @@ Game Model
 
             self.purchasableFibers.push getFiber()
 
-            if rand() < 1
-              MarketEvents.occur()
-              self.demands createDemands()
-              self.purchasableFibers [0...4].map getFiber
+            if rand() < 0.1
+              eventOccurs()
 
         addResource: (item) ->
           addStock(item, self.bins)
@@ -119,6 +122,9 @@ Game Model
 
             # Decrease Demand Price
             fibers[item.type].demandPrice = Math.floor 0.98 * fibers[item.type].demandPrice
+
+            if rand() < 0.05
+              eventOccurs()
 
           else
             alert "Insufficient Items of type #{item.type}"

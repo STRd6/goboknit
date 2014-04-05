@@ -11,28 +11,30 @@ Cyborg
         name: "Knitborg"
         durability: 25
         durabilityMax: 25
+        selectedQuantity: 1
 
       self = Composition(I)
 
-      self.attrObservable "name", "durability", "durabilityMax", "selectedBin"
+      self.attrObservable "name", "durability", "durabilityMax", "selectedBin", "selectedQuantity"
 
       self.extend
+        repair: ->
+          self.durability self.durabilityMax()
+
         produce: (bin, output) ->
           unless bin
             alert "No yarn selected!"
             return
-    
-          durability = self.durability()
 
-          if durability <= 0
+          durability = self.durability()
+          n = self.selectedQuantity()
+
+          if durability < n
             alert "Cyborg is broken down :*"
             return
 
-          self.durability self.durability() - 1
-
-          n = 1
-
           if bin and bin.amount() >= n
+            self.durability self.durability() - n
             bin.amount(bin.amount() - n)
             output
               type: bin.type()

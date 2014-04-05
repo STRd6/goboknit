@@ -37,15 +37,23 @@
         .name= cyborg.name
 
         %select
-          %option
+          - each [1, 5, 10, 25], (quantity) ->
+            %option(value=quantity)= quantity
+          - on "change", cyborg.selectedQuantity
+
+        %select
           - each game.bins, (bin) ->
             %option(value=bin.type)= bin.type()
           - on "change", cyborg.selectedBin
 
-        %button Knit!
-          - on "click", ->
-            - console.log "yolo"
-            - cyborg.produce cyborg.selectedBin(), game.output
+        .actions
+          %button Repair (¢250)
+            - on "click", ->
+              - alert "repair"
+  
+          %button Knit!
+            - on "click", ->
+              - cyborg.produce cyborg.selectedBin(), game.output
 
   .inventory
     %h2 Inventory
