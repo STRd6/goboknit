@@ -44,28 +44,30 @@ module.<span class="function"><span class="title">exports</span></span> = (I={})
     name: <span class="string">"Knitborg"</span>
     durability: <span class="number">25</span>
     durabilityMax: <span class="number">25</span>
+    selectedQuantity: <span class="number">1</span>
 
   self = Composition(I)
 
-  self.attrObservable <span class="string">"name"</span>, <span class="string">"durability"</span>, <span class="string">"durabilityMax"</span>, <span class="string">"selectedBin"</span>
+  self.attrObservable <span class="string">"name"</span>, <span class="string">"durability"</span>, <span class="string">"durabilityMax"</span>, <span class="string">"selectedBin"</span>, <span class="string">"selectedQuantity"</span>
 
   self.extend
+    repair: -&gt;
+      self.durability self.durabilityMax()
+
     produce: (bin, output) -&gt;
       <span class="keyword">unless</span> bin
         alert <span class="string">"No yarn selected!"</span>
         <span class="keyword">return</span>
 
       durability = self.durability()
+      n = self.selectedQuantity()
 
-      <span class="keyword">if</span> durability &lt;= <span class="number">0</span>
+      <span class="keyword">if</span> durability &lt; n
         alert <span class="string">"Cyborg is broken down :*"</span>
         <span class="keyword">return</span>
 
-      self.durability self.durability() - <span class="number">1</span>
-
-      n = <span class="number">1</span>
-
       <span class="keyword">if</span> bin <span class="keyword">and</span> bin.amount() &gt;= n
+        self.durability self.durability() - n
         bin.amount(bin.amount() - n)
         output
           type: bin.type()
