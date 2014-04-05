@@ -83,9 +83,8 @@ module.<span class="function"><span class="title">exports</span></span> = (I={})
     demands: createDemands()
     money: <span class="number">10000</span>
     purchasableFibers: [<span class="number">0.</span>.<span class="number">.4</span>].map getFiber
-    bins: [
-    ]
-    inventory: []
+    bins: Object.keys(fibers).map (name) -&gt; Bin type: name, amount: <span class="number">0</span>
+    inventory: Object.keys(fibers).map (name) -&gt; Bin type: name, amount: <span class="number">0</span>
     demand: []
 
   self = Composition(I)
