@@ -12,6 +12,17 @@ body
 h2
   margin-bottom: 0
 
+h3
+  margin: 0
+
+.stats
+  position: absolute
+  top: 1em
+  font-size: 24px
+  text-align: center
+  width: 100%
+  background-color: hsla(0, 100%, 100%, 0.75)
+
 .fiber, .demand, .item
   background-color: white
   border: 1px solid black
@@ -37,7 +48,6 @@ h2
   display: inline-block
   padding: 4px
   width: 200px
-  height: 100px
   border: 1px solid black
 
   progress
@@ -46,7 +56,9 @@ h2
 .game
   background-color: rgba(255, 255, 255, 0.5)
   padding: 2em
+  position: relative
   height: 100%
+  overflow: hidden
 
 #player
   width: 100%

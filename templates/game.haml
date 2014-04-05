@@ -2,11 +2,9 @@
 
 .game
   .stats
-    .money
-      .title
-        Money
-      ¢
-      = @money
+    ¢
+    = @money
+
   .fibers
     %h2 Supply
     - each @purchasableFibers, (fiber) ->
@@ -33,24 +31,27 @@
     %h2 Cyborgs
     - each @cyborgs, (cyborg) ->
       .cyborg
+        %h3.name= cyborg.name
         %progress(value=cyborg.durability max=cyborg.durabilityMax)
-        .name= cyborg.name
 
-        %select
-          - each [1, 5, 10, 25], (quantity) ->
-            %option(value=quantity)= quantity
-          - on "change", cyborg.selectedQuantity
-
-        %select
-          - each game.bins, (bin) ->
-            %option(value=bin.type)= bin.type()
-          - on "change", cyborg.selectedBin
-
-        .actions
+        .special
           %button Repair (¢250)
             - on "click", ->
-              - alert "repair"
+              - game.money(game.money() - 250)
+              - cyborg.repair()
+
+        .primary
+          %select
+            - each [1, 5, 10, 25], (quantity) ->
+              %option(value=quantity)= quantity
+            - on "change", cyborg.selectedQuantity
   
+          %select
+            %option
+            - each game.bins, (bin) ->
+              %option(value=bin.type)= bin.type()
+            - on "change", cyborg.selectedBin
+
           %button Knit!
             - on "click", ->
               - cyborg.produce cyborg.selectedBin(), game.output
