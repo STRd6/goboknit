@@ -50,9 +50,8 @@ Game Model
         demands: createDemands()
         money: 10000
         purchasableFibers: [0...4].map getFiber
-        bins: [
-        ]
-        inventory: []
+        bins: Object.keys(fibers).map (name) -> Bin type: name, amount: 0
+        inventory: Object.keys(fibers).map (name) -> Bin type: name, amount: 0
         demand: []
 
       self = Composition(I)

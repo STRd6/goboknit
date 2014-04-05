@@ -14,6 +14,8 @@
         .price
           ¢
           = fiber.price
+        .price
+          = "(¢#{Math.floor fiber.price / fiber.amount} ea)"
         .type= fiber.type
         .amount= "#{fiber.amount} kg"
         %button.purchase Purcase!
@@ -21,7 +23,7 @@
             - game.purchase(fiber)
 
   .bins
-    %h2 Bins
+    %h2 Materials
     - each @bins, (item) ->
       .item
         .type= item.type
