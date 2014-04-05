@@ -37,6 +37,8 @@
             <div class="content"><pre><code class="lang-coffeescript">{defaults, extend} = require <span class="string">"./util"</span>
 Composition = require <span class="string">"composition"</span>
 
+MarketEvents = require <span class="string">"./market_events"</span>
+
 Bin = require <span class="string">"./bin"</span>
 Cyborg = require <span class="string">"./cyborg"</span>
 fibers = require <span class="string">"./fibers"</span>
@@ -44,6 +46,13 @@ fibers = require <span class="string">"./fibers"</span>
 <span class="function"><span class="title">A</span></span> = (name) -&gt;
   (x) -&gt;
     x[name]()
+
+<span class="keyword">do</span> <span class="function"><span class="title">initFibers</span></span> = -&gt;
+  Object.keys(fibers).forEach (type) -&gt;
+    fiber = fibers[type]
+    console.log fiber
+    fiber.supplyPrice = fiber.basePrice
+    fiber.demandPrice = Math.floor fiber.basePrice * <span class="number">1.1</span>
 
 <span class="function"><span class="title">getFiber</span></span> = -&gt;
   fiber = Object.keys(fibers).map((type) -&gt;
@@ -53,7 +62,7 @@ fibers = require <span class="string">"./fibers"</span>
   ).rand()
 
   amount = rand(fiber.frequency) + <span class="number">1</span>
-  fiber.price = Math.floor amount * (fiber.basePrice + (rand() * <span class="number">0.3</span> - <span class="number">0.15</span>) * fiber.basePrice)
+  fiber.price = Math.floor amount * (fiber.supplyPrice + (rand() * <span class="number">0.3</span> - <span class="number">0.15</span>) * fiber.supplyPrice)
   fiber.amount = amount
 
   <span class="keyword">return</span> fiber
@@ -64,7 +73,7 @@ fibers = require <span class="string">"./fibers"</span>
       type: type
     , fibers[type]
   ).each (demand) -&gt;
-    demand.price = Math.floor demand.basePrice * <span class="number">1.1</span>
+    demand.price = demand.demandPrice
 
 module.<span class="function"><span class="title">exports</span></span> = (I={}) -&gt;
   defaults I,
@@ -109,7 +118,15 @@ module.<span class="function"><span class="title">exports</span></span> = (I={})
         self.purchasableFibers.remove(item)
         self.addResource item
 
+        <span class="comment"># Increase supply price of purchased fiber</span>
+        fibers[item.type].supplyPrice = Math.floor <span class="number">1.02</span> * fibers[item.type].supplyPrice
+
         self.purchasableFibers.push getFiber()
+
+        <span class="keyword">if</span> rand() &lt; <span class="number">1</span>
+          MarketEvents.occur()
+          self.demands createDemands()
+          self.purchasableFibers [<span class="number">0.</span>.<span class="number">.4</span>].map getFiber
 
     addResource: (item) -&gt;
       addStock(item, self.bins)
@@ -133,6 +150,10 @@ module.<span class="function"><span class="title">exports</span></span> = (I={})
       <span class="keyword">if</span> bin <span class="keyword">and</span> bin.amount() &gt;= n
         bin.amount(bin.amount() - n)
         increment self.money, item.price * n
+
+        <span class="comment"># Decrease Demand Price</span>
+        fibers[item.type].demandPrice = Math.floor <span class="number">0.98</span> * fibers[item.type].demandPrice
+
       <span class="keyword">else</span>
         alert <span class="string">"Insufficient Items of type <span class="subst">#{item.type}</span>"</span>
 

@@ -2,7 +2,7 @@
 
 <html>
 <head>
-  <title>youtube</title>
+  <title>market_events</title>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
   <link rel="stylesheet" media="all" href="http://strd6.github.io/cdn/parallel/docco.css" />
@@ -18,7 +18,7 @@
               <div class="pilwrap">
                 <a class="pilcrow" href="#section-1">&#182;</a>
               </div>
-              <h1 id="play-a-youtube-video">Play a Youtube video</h1>
+              <h1 id="market-events">Market Events</h1>
 
             </div>
             <div class="content"><pre><code class="lang-coffeescript">
@@ -34,54 +34,80 @@
               </div>
               
             </div>
-            <div class="content"><pre><code class="lang-coffeescript">  tag = document.createElement(<span class="string">'script'</span>)
+            <div class="content"><pre><code class="lang-coffeescript">fibers = require <span class="string">"./fibers"</span>
 
-  tag.src = <span class="string">"https://www.youtube.com/iframe_api"</span>
-  firstScriptTag = document.getElementsByTagName(<span class="string">'script'</span>)[<span class="number">0</span>]
-  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag)
+events =
+  <span class="string">"Cotton Yarn Prices Rising"</span>:
+    video: <span class="string">"ThGhCx2u0Wk"</span>
+    supply:
+      cotton: <span class="number">2</span>
 
-  callbacks = []
+  <span class="string">"Cotton Yarn Prices Falling"</span>:
+    video: <span class="string">"QtTQ6K4vwjU"</span>
+    supply:
+      cotton: <span class="number">0.5</span>
 
-  <span class="function"><span class="title">stop</span></span> = -&gt;
-    callbacks.forEach (callback) -&gt;
-      callback()
+  <span class="string">"Bamboo Yarn Prices Falling, Cotton Yarn Prices Rising"</span>:
+    video: <span class="string">"p1g8kBlpCCk"</span>
+    supply:
+      cotton: <span class="number">1.5</span>
+      bamboo: <span class="number">0.5</span>
 
-    callbacks = []
-    $(<span class="string">"#player"</span>).hide()
-    player.stopVideo()
+  <span class="string">"Acrylic Price Rising and Volatile"</span>:
+    video: <span class="string">"qk4mfUot8i4"</span>
+    supply:
+      acrylic: <span class="number">2</span>
 
-  <span class="function"><span class="title">onPlayerStateChange</span></span> = (event) -&gt;
-    <span class="keyword">if</span> event.data <span class="keyword">is</span> YT.PlayerState.ENDED
-      stop()
+  <span class="string">"Wool Yarn Price Rising"</span>:
+    video: <span class="string">"Mm0gWRvprlM"</span>
+    supply:
+      wool: <span class="number">2</span>
 
-  stopVideo = () -&gt;
-    player.stopVideo()
+  <span class="string">"Silk Yarn Price Falls"</span>:
+    video: <span class="string">"DWIT_iO6TfU"</span>
+    supply:
+      silk: <span class="number">0.75</span>
 
-  <span class="comment"># 4. The API will call this function when the video player is ready.</span>
-  <span class="function"><span class="title">onPlayerReady</span></span> = (event) -&gt;
-    ;<span class="comment">#event.target.playVideo()</span>
+  <span class="string">"Goblins Defeated"</span>:
+    video: <span class="string">"lxV7KuVR2g0"</span>
+    demand: <span class="number">1.5</span>
 
-  player = <span class="literal">undefined</span>
-  global.onYouTubeIframeAPIReady = () -&gt;
-    player = <span class="keyword">new</span> YT.Player <span class="string">'player'</span>,
-      height: <span class="string">'390'</span>
-      width: <span class="string">'640'</span>
-      playerVars:
-        controls: <span class="number">0</span>
-        showinfo: <span class="number">0</span>
-        rel: <span class="number">0</span>
-      events:
-        <span class="string">'onReady'</span>: onPlayerReady
-        <span class="string">'onStateChange'</span>: onPlayerStateChange
+keys = Object.keys(events)
 
-  module.exports =
-    playVideo: (id, completed) -&gt;
-      $(<span class="string">"#player"</span>).show()
+keys.forEach (name) -&gt;
+  event = events[name]
+  event.text = name
 
-      player.loadVideoById id
-      callbacks.push completed
+tubes = require <span class="string">"./youtube"</span>
 
-    stop: stop</code></pre>
+$(<span class="string">"body"</span>).<span class="literal">on</span> <span class="string">"click"</span>, <span class="string">".dismiss"</span>, -&gt;
+  tubes.stop()
+
+module.exports =
+  occur: -&gt;
+    {supply, demand, text, video} = events[keys.rand()]
+
+    $(<span class="string">"#overlay h2"</span>).text(text)
+    $(<span class="string">"#overlay"</span>)
+      .show()
+
+    $(<span class="string">"audio"</span>).animate
+      volume: <span class="number">0</span>
+
+    <span class="keyword">if</span> demand
+      Object.keys(fibers).forEach (type) -&gt;
+        fibers[type].demandPrice = Math.floor(fibers[type].demandPrice * demand)
+
+    <span class="keyword">if</span> supply
+      Object.keys(supply).forEach (type) -&gt;
+        change = supply[type]
+        fibers[type].supplyPrice = Math.floor fibers[type].supplyPrice * change
+
+    tubes.playVideo video, -&gt;
+      $(<span class="string">"#overlay"</span>).hide()
+
+      $(<span class="string">"audio"</span>).animate
+        volume: <span class="number">1</span></code></pre>
 </div>
         </li>
         
