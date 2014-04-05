@@ -4,6 +4,8 @@ Game Model
     {defaults, extend} = require "./util"
     Composition = require "composition"
 
+    MarketEvents = require "./market_events"
+
     Bin = require "./bin"
     Cyborg = require "./cyborg"
     fibers = require "./fibers"
@@ -11,6 +13,13 @@ Game Model
     A = (name) ->
       (x) ->
         x[name]()
+
+    do initFibers = ->
+      Object.keys(fibers).forEach (type) ->
+        fiber = fibers[type]
+        console.log fiber
+        fiber.supplyPrice = fiber.basePrice
+        fiber.demandPrice = Math.floor fiber.basePrice * 1.1
 
     getFiber = ->
       fiber = Object.keys(fibers).map((type) ->
@@ -20,7 +29,7 @@ Game Model
       ).rand()
 
       amount = rand(fiber.frequency) + 1
-      fiber.price = Math.floor amount * (fiber.basePrice + (rand() * 0.3 - 0.15) * fiber.basePrice)
+      fiber.price = Math.floor amount * (fiber.supplyPrice + (rand() * 0.3 - 0.15) * fiber.supplyPrice)
       fiber.amount = amount
 
       return fiber
@@ -31,7 +40,7 @@ Game Model
           type: type
         , fibers[type]
       ).each (demand) ->
-        demand.price = Math.floor demand.basePrice * 1.1
+        demand.price = demand.demandPrice
 
     module.exports = (I={}) ->
       defaults I,
@@ -75,8 +84,16 @@ Game Model
 
             self.purchasableFibers.remove(item)
             self.addResource item
-            
+
+            # Increase supply price of purchased fiber
+            fibers[item.type].supplyPrice = Math.floor 1.02 * fibers[item.type].supplyPrice
+
             self.purchasableFibers.push getFiber()
+
+            if rand() < 1
+              MarketEvents.occur()
+              self.demands createDemands()
+              self.purchasableFibers [0...4].map getFiber
 
         addResource: (item) ->
           addStock(item, self.bins)
@@ -100,6 +117,10 @@ Game Model
           if bin and bin.amount() >= n
             bin.amount(bin.amount() - n)
             increment self.money, item.price * n
+
+            # Decrease Demand Price
+            fibers[item.type].demandPrice = Math.floor 0.98 * fibers[item.type].demandPrice
+
           else
             alert "Insufficient Items of type #{item.type}"
 

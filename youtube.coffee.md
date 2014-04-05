@@ -15,6 +15,7 @@ Play a Youtube video
 
         callbacks = []
         $("#player").hide()
+        player.stopVideo()
 
       onPlayerStateChange = (event) ->
         if event.data is YT.PlayerState.ENDED

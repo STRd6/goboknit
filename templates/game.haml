@@ -8,7 +8,7 @@
       ¢
       = @money
   .fibers
-    %h2 Fibers
+    %h2 Supply
     - each @purchasableFibers, (fiber) ->
       .fiber
         .price
@@ -67,3 +67,7 @@
             - game.sell item
 
 #player
+
+#overlay
+  %h2
+  %button.dismiss Ok, I got it!
