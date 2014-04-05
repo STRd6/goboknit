@@ -35,10 +35,12 @@
         %progress(value=cyborg.durability max=cyborg.durabilityMax)
 
         .special
-          %button Repair (¢250)
+          %button Repair
+            = "(¢"
+            = cyborg.repairCost
+            = ")"
             - on "click", ->
-              - game.money(game.money() - 250)
-              - cyborg.repair()
+              - game.repair(cyborg)
 
         .primary
           %select
@@ -55,6 +57,12 @@
           %button Knit!
             - on "click", ->
               - cyborg.produce cyborg.selectedBin(), game.output
+
+    %button 
+      Purchase New Cyborg
+      = @cyborgPrice
+      - on "click", @purchaseCyborg
+
 
   .inventory
     %h2 Inventory

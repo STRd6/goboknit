@@ -47,6 +47,7 @@ Game Model
         cyborgs: [
           {}
         ]
+        cyborgPrice: 6000
         demands: createDemands()
         money: 10000
         purchasableFibers: [0...4].map getFiber
@@ -56,7 +57,7 @@ Game Model
 
       self = Composition(I)
 
-      self.attrObservable "money", "purchasableFibers", "demands"
+      self.attrObservable "money", "cyborgPrice",  "purchasableFibers", "demands"
       self.attrModels "cyborgs", Cyborg
       self.attrModels "bins", Bin
       self.attrModels "inventory", Bin
@@ -96,6 +97,23 @@ Game Model
 
             if rand() < 0.1
               eventOccurs()
+
+        repair: (cyborg) ->
+          cost = cyborg.repairCost()
+          if self.money() > cost
+            self.money(self.money() - cost)
+            cyborg.repair()
+          else
+            alert "Not enough money"
+
+        purchaseCyborg: ->
+          price = self.cyborgPrice()
+          if self.money() >= price
+            increment self.money, -price
+            increment self.cyborgPrice, 1000
+            self.cyborgs.push Cyborg()
+          else
+            alert "Not enough money"
 
         addResource: (item) ->
           addStock(item, self.bins)

@@ -8,17 +8,19 @@ Cyborg
 
     module.exports = (I={}) ->
       defaults I,
-        name: "Knitborg"
+        name: "Knitborg Jr."
         durability: 25
         durabilityMax: 25
         selectedQuantity: 1
+        repairCost: 250
 
       self = Composition(I)
 
-      self.attrObservable "name", "durability", "durabilityMax", "selectedBin", "selectedQuantity"
+      self.attrObservable "name", "durability", "durabilityMax", "repairCost", "selectedBin", "selectedQuantity"
 
       self.extend
         repair: ->
+          self.repairCost self.repairCost() + 50
           self.durability self.durabilityMax()
 
         produce: (bin, output) ->
